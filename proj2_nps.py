@@ -183,13 +183,32 @@ def get_site_instance(site_url):
 
     #category
     try:
-        category = header.find(class_='Hero-designation').text.strip()
+        if header.find(class_='Hero-designation').text == '':
+            category = "No category"
+        elif header.find(class_='Hero-designation') != '':
+            category = header.find(class_='Hero-designation').text.strip()
     except:
         category = "No category"
-    
+
+    #name
     name = header.find(class_='Hero-title').text.strip()
-    address = footer.find(itemprop='addressLocality').text + ', ' + footer.find(itemprop='addressRegion').text
-    zipcode = footer.find(class_='postal-code').text.strip()
+
+    #address
+    try:
+        address = footer.find(itemprop='addressLocality').text.strip() + ', ' + footer.find(itemprop='addressRegion').text.strip()
+    except:
+        address = "No address"
+
+    #zipcode
+    try:
+        if footer.find(class_='postal-code'):
+            zipcode = footer.find(class_='postal-code').text.strip()
+        elif footer.find(class_='postal-code') == None:
+            zipcode = footer.find(itemprop='postalCode').text.strip()
+    except:
+        zipcode = "No zipcode"
+
+    #phone
     phone = footer.find(class_='tel').text.strip()
 
     return NationalSite(category=category, name=name, address=address, zipcode=zipcode, phone=phone)
@@ -276,7 +295,7 @@ if __name__ == "__main__":
         else:
             url = state_dict[state.lower()]
             sites_dict = get_sites_for_state(url)
-            header = f"List of National Sites in {state.capitalize()}"
+            header = f"List of National Sites in {state.title()}"
             print('-' * len(header))
             print(header)
             print('-' * len(header))
