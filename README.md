@@ -1,4 +1,4 @@
-# Scraping and Crawling nps.gov
+# SI507 Winter 2021 Project: Scraping and Crawling nps.gov
 
 # Objective
 Create a program to scrape and search for information about National Sites (Parks, Heritage Sites, Trails, and other entities) from https://www.nps.gov. Also, add the ability to look up nearby places using the MapQuest API.
